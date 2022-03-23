@@ -1,0 +1,13 @@
+<div class="container">
+    <img src="assets/descarga.png" alt="">
+    <div *ngIf="mostrarUsuarios">
+        <div>
+            <select name="" id="usuario" ngDefaultControl (change)="seleccionarJugador($event)">{{usuarios}}
+                <option selected value="undefined" disabled>Usuario</option>
+                <option id="" *ngFor="let usuario of usuarios" [ngValue]="usuario">{{usuario.nombre}}</option>
+            </select>
+        </div>
+        <input class="botones" type="button" value="Volver" (click)="volver()">&nbsp;
+        <input class="botones" type="button" value="Acceder" (click)="acceder()">
+    </div>
+</div>

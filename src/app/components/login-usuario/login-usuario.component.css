@@ -1,0 +1,16 @@
+.container{
+    text-align: center;
+}
+
+.botones{
+    width: 9rem;
+    height: 3rem;
+    font-size: 20px;
+}
+
+select{
+    width: 9rem;
+    height: 2rem;
+    font-size: 20px;
+    margin-bottom: 5rem;
+}

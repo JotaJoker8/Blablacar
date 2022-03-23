@@ -1,0 +1,26 @@
+<div class="container">
+    <h1>Mis Viajes</h1>
+    <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Lugar Origen: </mat-label>
+          <input matInput [(ngModel)]="viaje.lugarOrigen" [ngModelOptions]="{standalone: true}">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Lugar Destino: </mat-label>
+            <input matInput [(ngModel)]="viaje.lugarDestino" [ngModelOptions]="{standalone: true}">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Fecha/Hora: </mat-label>
+            <input matInput [(ngModel)]="viaje.fechaHora" [ngModelOptions]="{standalone: true}">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Precio</mat-label>
+            <input matInput [(ngModel)]="viaje.precio" [ngModelOptions]="{standalone: true}">
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Plazas</mat-label>
+            <input matInput [(ngModel)]="viaje.plazas" [ngModelOptions]="{standalone: true}">
+        </mat-form-field><br>
+        <button mat-raised-button (click)="agregarViaje()">Guardar</button>
+    </form>
+</div> 

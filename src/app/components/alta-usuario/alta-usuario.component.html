@@ -1,0 +1,26 @@
+<div class="container">
+    <img src="assets/descarga.png" alt="">
+    <div>
+        <label for="">Nombre: </label>
+        <input [(ngModel)]="usuario.nombre" type="text" required><br><br>
+        <label for="">ID: </label>
+        <input [(ngModel)]="usuario.id" type="text" required><br><br>
+        <label for="">Fecha Nacimiento: </label>
+        <input [(ngModel)]="usuario.fechaNacimiento" type="date" required><br><br>
+        <label for="">Rol: </label>
+        <div class="display" *ngFor="let tipoUsuario of tiposUsuarios">
+            <input type="radio" name="tipoUsuario" [value]="tipoUsuario" 
+            (change)="guardarRespuestaTipoUsuario($event)" required>{{tipoUsuario}}&nbsp;
+        </div><br><br>
+        <div *ngIf="datosConductor">
+            <label for="">Matrícula: </label>
+            <input [(ngModel)]="usuario.matricula" type="text" required><br><br>
+            <label for="">Marca: </label>
+            <input [(ngModel)]="usuario.marca" type="text" required><br><br>
+            <label for="">Modelo: </label>
+            <input [(ngModel)]="usuario.modelo" type="text" required><br><br>
+        </div>
+        <input class="botones" type="button" value="Guardar" (click)="guardarUsuario()">&nbsp;
+        <input class="botones" type="button" value="Volver" (click)="volver()">
+    </div>
+</div>

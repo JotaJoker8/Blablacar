@@ -1,0 +1,26 @@
+.container{
+    text-align: center;
+}
+
+button{
+    width: 6rem;
+    height: 3rem;
+    font-size: 20px;
+}
+
+table{
+    margin: auto;
+    margin-top: 2rem;
+    border: solid black 1px;
+    font-size: 20px;
+}
+
+th{
+    border: solid black 1px;
+    padding: 1rem;
+}
+
+td{
+    border: solid black 1px;
+    padding: 1rem;
+}

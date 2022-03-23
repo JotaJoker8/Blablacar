@@ -1,0 +1,13 @@
+.container{
+    text-align: center;
+}
+
+.botones{
+    width: 9rem;
+    height: 3rem;
+    font-size: 20px;
+}
+
+.display{
+    display: inline-flex;
+}

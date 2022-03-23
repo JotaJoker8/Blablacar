@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="container">
+    <h1>CONDUCTORES</h1>
+    <button mat-raised-button (click)="agregarConductor()">Añadir</button>
+    <table>
+        <tr>
+            <th>Conductor</th>
+            <th>Lugar Origen</th>
+            <th>Lugar Destino</th>
+            <th>Fecha/Hora</th>
+            <th>Precio</th>
+            <th>Plazas</th>
+        </tr>
+        <tr *ngFor="let viaje of usuario.viajes">
+            <td>{{viaje.nombreUsuario}}</td>
+            <td>{{viaje.lugarOrigen}}</td>
+            <td>{{viaje.lugarDestino}}</td>
+            <td>{{viaje.fechaHora}}</td>
+            <td>{{viaje.precio}}€</td>
+            <td>{{viaje.plazas}}</td>
+        </tr>    
+    </table>
+</div>
