@@ -1,26 +1,64 @@
 <div class="container">
     <img src="assets/descarga.png" alt="">
-    <div>
-        <label for="">Nombre: </label>
-        <input [(ngModel)]="usuario.nombre" type="text" required><br><br>
-        <label for="">ID: </label>
-        <input [(ngModel)]="usuario.id" type="text" required><br><br>
-        <label for="">Fecha Nacimiento: </label>
-        <input [(ngModel)]="usuario.fechaNacimiento" type="date" required><br><br>
-        <label for="">Rol: </label>
-        <div class="display" *ngFor="let tipoUsuario of tiposUsuarios">
-            <input type="radio" name="tipoUsuario" [value]="tipoUsuario" 
-            (change)="guardarRespuestaTipoUsuario($event)" required>{{tipoUsuario}}&nbsp;
-        </div><br><br>
-        <div *ngIf="datosConductor">
-            <label for="">Matrícula: </label>
-            <input [(ngModel)]="usuario.matricula" type="text" required><br><br>
-            <label for="">Marca: </label>
-            <input [(ngModel)]="usuario.marca" type="text" required><br><br>
-            <label for="">Modelo: </label>
-            <input [(ngModel)]="usuario.modelo" type="text" required><br><br>
+    <form [formGroup]="formGroup" (ngSubmit)="guardarUsuario()" class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Nombre: </mat-label>
+            <input matInput required formControlName="usuarioNombre" maxlength="15">
+            <mat-error *ngIf="this.formGroup.get('usuarioNombre')?.invalid">{{getErrorNombre()}}</mat-error>
+        </mat-form-field><br>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>ID: </mat-label>
+            <input matInput required formControlName="usuarioID" maxlength="4">
+            <mat-error *ngIf="this.formGroup.get('usuarioID')?.invalid">{{getErrorID()}}</mat-error>
+        </mat-form-field><br>
+        <div *ngIf="calendarioConductor">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Fecha de Nacimiento: </mat-label>
+                <input required readonly matInput formControlName="usuarioFechaNacimientoConductor"
+                 [min]="minDateConductor" [max]="maxDateConductor" [matDatepicker]="selector">
+                <mat-error *ngIf="this.formGroup.get('usuarioFechaNacimiento')?.invalid">{{getErrorFecha()}}</mat-error> 
+                <mat-datepicker-toggle matSuffix [for]="selector"></mat-datepicker-toggle>
+                <mat-datepicker #selector></mat-datepicker>
+            </mat-form-field><br><br>
         </div>
-        <input class="botones" type="button" value="Guardar" (click)="guardarUsuario()">&nbsp;
+        <div *ngIf="calendarioPasajero">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Fecha de Nacimiento: </mat-label>
+                <input required readonly matInput formControlName="usuarioFechaNacimientoPasajero"
+                 [max]="maxDatePasajero" [matDatepicker]="selector">
+                <mat-error *ngIf="this.formGroup.get('usuarioFechaNacimiento')?.invalid">{{getErrorFecha()}}</mat-error> 
+                <mat-datepicker-toggle matSuffix [for]="selector"></mat-datepicker-toggle>
+                <mat-datepicker #selector></mat-datepicker>
+            </mat-form-field><br><br>
+        </div>
+        <mat-radio-group aria-label="Select an option"
+         class="example-full-width" appearance="fill" formControlName="usuarioRol" 
+         (change)="guardarRespuestaTipoUsuario()">Rol:
+            <div class="display" *ngFor="let tipoUsuario of tiposUsuarios">
+                <mat-radio-button required [value]="tipoUsuario" name="tipoUsuario">
+                 {{tipoUsuario}}&nbsp;
+                </mat-radio-button>
+            </div>
+            <mat-error *ngIf="this.formGroup.get('usuarioRol')?.invalid">{{getErrorRol()}}</mat-error> 
+        </mat-radio-group><br><br>
+        <div *ngIf="datosConductor">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Matrícula: </mat-label>
+                <input matInput required formControlName="usuarioMatricula" maxlength="7">
+                <mat-error *ngIf="this.formGroup.get('usuarioMatricula')?.invalid">{{getErrorMatricula()}}</mat-error>
+            </mat-form-field><br><br>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Marca: </mat-label>
+                <input matInput required formControlName="usuarioMarca" maxlength="10">
+                <mat-error *ngIf="this.formGroup.get('usuarioMarca')?.invalid">{{getErrorMarca()}}</mat-error>
+            </mat-form-field><br><br>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Modelo: </mat-label>
+                <input matInput required formControlName="usuarioModelo" maxlength="10">
+                <mat-error *ngIf="this.formGroup.get('usuarioModelo')?.invalid">{{getErrorModelo()}}</mat-error>
+            </mat-form-field>
+        </div><br>
+        <input class="botones" type="submit" value="Guardar">&nbsp;
         <input class="botones" type="button" value="Volver" (click)="volver()">
-    </div>
+    </form>
 </div>
