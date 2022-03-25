@@ -1,6 +1,6 @@
 <div class="container">
     <img src="assets/descarga.png" alt="">
-    <form [formGroup]="formGroup" (ngSubmit)="guardarUsuario()" class="example-form">
+    <form [formGroup]="formGroup" #registroForm="ngForm" (ngSubmit)="guardarUsuario(registroForm)" class="example-form">
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Nombre: </mat-label>
             <input matInput required formControlName="usuarioNombre" maxlength="15">
@@ -14,7 +14,7 @@
         <div *ngIf="calendarioConductor">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Fecha de Nacimiento: </mat-label>
-                <input required readonly matInput formControlName="usuarioFechaNacimientoConductor"
+                <input required readonly matInput formControlName="usuarioFechaNacimiento"
                  [min]="minDateConductor" [max]="maxDateConductor" [matDatepicker]="selector">
                 <mat-error *ngIf="this.formGroup.get('usuarioFechaNacimiento')?.invalid">{{getErrorFecha()}}</mat-error> 
                 <mat-datepicker-toggle matSuffix [for]="selector"></mat-datepicker-toggle>
@@ -24,7 +24,7 @@
         <div *ngIf="calendarioPasajero">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Fecha de Nacimiento: </mat-label>
-                <input required readonly matInput formControlName="usuarioFechaNacimientoPasajero"
+                <input required readonly matInput formControlName="usuarioFechaNacimiento"
                  [max]="maxDatePasajero" [matDatepicker]="selector">
                 <mat-error *ngIf="this.formGroup.get('usuarioFechaNacimiento')?.invalid">{{getErrorFecha()}}</mat-error> 
                 <mat-datepicker-toggle matSuffix [for]="selector"></mat-datepicker-toggle>

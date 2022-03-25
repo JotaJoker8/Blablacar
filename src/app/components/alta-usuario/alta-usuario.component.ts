@@ -43,8 +43,7 @@ export class AltaUsuarioComponent implements OnInit {
     this.formGroup = new FormGroup({
       usuarioNombre : new FormControl('', Validators.pattern('[a-zA-Z0-9_-]{5,15}')),
       usuarioID : new FormControl('', Validators.pattern('[a-zA-Z0-9_-]{4}')),
-      usuarioFechaNacimientoConductor : new FormControl('', [Validators.required]),
-      usuarioFechaNacimientoPasajero : new FormControl('', [Validators.required]),
+      usuarioFechaNacimiento : new FormControl('', Validators.required),
       usuarioRol: new FormControl('', Validators.required),
       usuarioMatricula : new FormControl('', Validators.pattern('[0-9]{4}[A-Z]{3}')),
       usuarioMarca : new FormControl('', Validators.pattern('[a-zA-Z]{4,10}')),
@@ -68,22 +67,22 @@ export class AltaUsuarioComponent implements OnInit {
     }
   }
   
-  guardarUsuario(){
-    if(this.usuario.rol == 'Conductor'){
-      this.usuario.fechaNacimiento = this.formGroup.get('usuarioFechaNacimientoConductor')?.value;
-      console.log(this.usuario.fechaNacimiento);
+  guardarUsuario(registroForm: any){
+    if(registroForm.valid){
+      if(this.usuario.rol == 'Conductor'){
+        this.usuario.matricula = this.formGroup.get('usuarioMatricula')?.value;
+        this.usuario.marca = this.formGroup.get('usuarioMarca')?.value;
+        this.usuario.modelo = this.formGroup.get('usuarioModelo')?.value;
+      }
+      this.usuario.nombre = this.formGroup.get('usuarioNombre')?.value;
+      this.usuario.id = this.formGroup.get('usuarioID')?.value;
+      this.usuario.fechaNacimiento = this.formGroup.get('usuarioFechaNacimiento')?.value;
+      this.comunicacionService.agregarUsuarios(this.usuario);
+      this.router.navigateByUrl('');
     }else{
-      this.usuario.fechaNacimiento = this.formGroup.get('usuarioFechaNacimientoPasajero')?.value;
-      console.log(this.usuario.fechaNacimiento);
+      alert('Formulario incorrecto');
     }
-    this.usuario.nombre = this.formGroup.get('usuarioNombre')?.value;
-    this.usuario.id = this.formGroup.get('usuarioID')?.value;
-    this.usuario.matricula = this.formGroup.get('usuarioMatricula')?.value;
-    this.usuario.marca = this.formGroup.get('usuarioMarca')?.value;
-    this.usuario.modelo = this.formGroup.get('usuarioModelo')?.value;
     console.log(this.usuario);
-    this.comunicacionService.agregarUsuarios(this.usuario);
-    this.router.navigateByUrl('');
   }
 
   volver(){

@@ -4,7 +4,6 @@ import { Usuario } from 'src/app/models/usuario';
 import { ComunicacionService } from 'src/app/services/comunicacion.service';
 import { MatDialog } from '@angular/material/dialog';
 import { VentanaConductoresComponent } from '../ventana-conductores/ventana-conductores.component';
-import { Viaje } from 'src/app/models/viaje';
 
 @Component({
   selector: 'app-conductores',
