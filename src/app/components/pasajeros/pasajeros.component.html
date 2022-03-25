@@ -1,1 +1,31 @@
 <app-header></app-header>
+<div class="container">
+    <h1>PASAJEROS</h1>
+    <form [formGroup]="formGroup" #registroForm="ngForm" (ngSubmit)="guardarViaje(registroForm)" class="example-form">
+        <div class="inputs">
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Origen: </mat-label>
+                <input matInput required formControlName="viajeOrigen">
+                <mat-error *ngIf="this.formGroup.get('viajeOrigen')?.invalid">{{getErrorOrigen()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Destino: </mat-label>
+                <input matInput required formControlName="viajeDestino">
+                <mat-error *ngIf="this.formGroup.get('viajeDestino')?.invalid">{{getErrorDestino()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Fecha: </mat-label>
+                <input required readonly matInput formControlName="viajeFecha"
+                    [min]="minDateViaje" [matDatepicker]="selector">
+                <mat-error *ngIf="this.formGroup.get('viajeFecha')?.invalid">{{getErrorFecha()}}</mat-error> 
+                <mat-datepicker-toggle matSuffix [for]="selector"></mat-datepicker-toggle>
+                <mat-datepicker #selector></mat-datepicker>
+            </mat-form-field>
+            <div>
+                <h2>Buscador de viajes</h2>
+                <input class="botones" type="submit" value="Buscar">
+                <input class="botones" type="button" value="Limpiar" (click)="limpiar()">
+            </div>
+        </div>
+    </form>    
+</div>

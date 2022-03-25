@@ -1,0 +1,43 @@
+.container{
+    text-align: center;
+}
+
+.inputs{
+    margin-top: 2rem;
+    display: flex;
+}
+
+mat-form-field{
+    padding-right: 10rem;
+    padding-left: 8rem;
+}
+
+.botones{
+    width: 6rem;
+    height: 3rem;
+    font-size: 20px;
+    margin-right: 1rem;
+}
+
+button{
+    width: 6rem;
+    height: 3rem;
+    font-size: 20px;
+}
+
+table{
+    margin: auto;
+    margin-top: 2rem;
+    border: solid black 1px;
+    font-size: 20px;
+}
+
+th{
+    border: solid black 1px;
+    padding: 1rem;
+}
+
+td{
+    border: solid black 1px;
+    padding: 1rem;
+}
