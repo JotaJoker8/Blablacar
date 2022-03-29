@@ -82,7 +82,6 @@ export class AltaUsuarioComponent implements OnInit {
     }else{
       alert('Formulario incorrecto');
     }
-    console.log(this.usuario);
   }
 
   volver(){

@@ -2,22 +2,70 @@
 <div class="container">
     <h1>CONDUCTORES</h1>
     <button mat-raised-button (click)="agregarConductor()">Añadir</button>
-    <table>
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="conductor">
+          <th mat-header-cell *matHeaderCellDef>CONDUCTOR</th>
+          <td mat-cell *matCellDef="let element">{{element.conductor}}</td>
+        </ng-container>
+        <ng-container matColumnDef="origen">
+          <th mat-header-cell *matHeaderCellDef>ORIGEN</th>
+          <td mat-cell *matCellDef="let element">{{element.origen}}</td>
+        </ng-container>
+        <ng-container matColumnDef="destino">
+          <th mat-header-cell *matHeaderCellDef>DESTINO</th>
+          <td mat-cell *matCellDef="let element">{{element.destino}}</td>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>FECHA</th>
+          <td mat-cell *matCellDef="let element">{{element.fecha}}</td>
+        </ng-container>
+        <ng-container matColumnDef="hora">
+            <th mat-header-cell *matHeaderCellDef>HORA</th>
+            <td mat-cell *matCellDef="let element">{{element.hora}}</td>
+        </ng-container>
+        <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef>PRECIO</th>
+            <td mat-cell *matCellDef="let element">{{element.precio}}</td>
+        </ng-container>
+        <ng-container matColumnDef="marca">
+            <th mat-header-cell *matHeaderCellDef>MARCA</th>
+            <td mat-cell *matCellDef="let element">{{element.marca}}</td>
+        </ng-container>
+        <ng-container matColumnDef="modelo">
+            <th mat-header-cell *matHeaderCellDef>MODELO</th>
+            <td mat-cell *matCellDef="let element">{{element.modelo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="plazas">
+            <th mat-header-cell *matHeaderCellDef>PLAZAS</th>
+            <td mat-cell *matCellDef="let element">{{element.plazas}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
+            *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+    <!-- <table>
         <tr>
             <th>Conductor</th>
-            <th>Lugar Origen</th>
-            <th>Lugar Destino</th>
-            <th>Fecha/Hora</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Fecha</th>
+            <th>Hora</th>
             <th>Precio</th>
+            <th>Marca</th>
+            <th>Modelo</th>
             <th>Plazas</th>
         </tr>
         <tr *ngFor="let viaje of usuario.viajes">
-            <td>{{viaje.nombreUsuario}}</td>
-            <td>{{viaje.lugarOrigen}}</td>
-            <td>{{viaje.lugarDestino}}</td>
-            <td>{{viaje.fechaHora}}</td>
+            <td>{{viaje.conductor}}</td>
+            <td>{{viaje.origen}}</td>
+            <td>{{viaje.destino}}</td>
+            <td>{{viaje.fecha}}</td>
+            <td>{{viaje.hora}}</td>
             <td>{{viaje.precio}}€</td>
+            <td>{{usuario.marca}}</td>
+            <td>{{usuario.modelo}}</td> 
             <td>{{viaje.plazas}}</td>
-        </tr>    
-    </table>
+        </tr>  
+    </table> -->
 </div>

@@ -28,6 +28,7 @@ button{
 table{
     margin: auto;
     margin-top: 2rem;
+    margin-bottom: 2rem;
     border: solid black 1px;
     font-size: 20px;
 }
@@ -41,3 +42,37 @@ td{
     border: solid black 1px;
     padding: 1rem;
 }
+
+.gris{
+    background-color: lightsteelblue;
+}
+
+.blanco{
+    background-color: white;
+}
+
+.mat-row .mat-cell {
+    padding: 3rem;
+}
+
+.mat-row:hover .mat-cell {
+    border-color: currentColor;
+}
+
+.demo-row-is-clicked {
+    font-weight: bold;
+}
+
+th{
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+td{
+    font-size: 17px;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    text-align: center;
+}    
