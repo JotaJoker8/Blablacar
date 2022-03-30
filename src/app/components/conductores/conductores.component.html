@@ -40,32 +40,8 @@
             <td mat-cell *matCellDef="let element">{{element.plazas}}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row (click)="clickedRows.add(row)" [class.demo-row-is-clicked]="clickedRows.has(row)"
-            *matRowDef="let row; columns: displayedColumns;">
+        <tr mat-row (click)="clickedRows.add(row)" 
+        *matRowDef="let row; columns: displayedColumns;">
         </tr>
     </table>
-    <!-- <table>
-        <tr>
-            <th>Conductor</th>
-            <th>Origen</th>
-            <th>Destino</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Precio</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>Plazas</th>
-        </tr>
-        <tr *ngFor="let viaje of usuario.viajes">
-            <td>{{viaje.conductor}}</td>
-            <td>{{viaje.origen}}</td>
-            <td>{{viaje.destino}}</td>
-            <td>{{viaje.fecha}}</td>
-            <td>{{viaje.hora}}</td>
-            <td>{{viaje.precio}}€</td>
-            <td>{{usuario.marca}}</td>
-            <td>{{usuario.modelo}}</td> 
-            <td>{{viaje.plazas}}</td>
-        </tr>  
-    </table> -->
 </div>

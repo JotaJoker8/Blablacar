@@ -37,7 +37,6 @@ export class ConductoresComponent implements OnInit {
         this.usuario.viajes[i].marca = this.usuario.marca;
         this.usuario.viajes[i].modelo = this.usuario.modelo;
         this.dataSource.push(this.usuario.viajes[i]);
-        console.log(this.dataSource);
       }
     })
   }

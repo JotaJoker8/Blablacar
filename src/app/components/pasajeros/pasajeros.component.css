@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.gris{
+    background-color: lightsteelblue;
+}
+
+.blanco{
+    background-color: white;
+}
+
 .inputs{
     margin-top: 2rem;
     display: flex;
@@ -35,24 +43,20 @@ table{
 
 th{
     border: solid black 1px;
-    padding: 1rem;
+    padding: 5rem;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
 }
 
 td{
     border: solid black 1px;
-    padding: 1rem;
-}
-
-.gris{
-    background-color: lightsteelblue;
-}
-
-.blanco{
-    background-color: white;
+    padding: 2rem;
+    font-size: 17px;
 }
 
 .mat-row .mat-cell {
-    padding: 3rem;
+    padding: 1rem;
 }
 
 .mat-row:hover .mat-cell {
@@ -63,16 +67,21 @@ td{
     font-weight: bold;
 }
 
-th{
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
-}
-
-td{
-    font-size: 17px;
-}
-
 th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     text-align: center;
+    padding: 1rem;
 }    
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 0px;
+    padding: 1rem;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+    padding-right: 0px;
+    padding: 1rem;
+}
+
+th.mat-header-cell[_ngcontent-uwf-c161]:first-of-type, td.mat-cell[_ngcontent-uwf-c161]:first-of-type, td.mat-footer-cell[_ngcontent-uwf-c161]:first-of-type {
+    padding: 1rem;
+}

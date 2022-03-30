@@ -19,10 +19,10 @@ var PasajerosComponent = /** @class */ (function () {
         this.usuario = new usuario_1.Usuario();
         this.viaje = new viaje_1.Viaje();
         this.posiblesViajes = [];
+        this.viajeSeleccionado = new viaje_1.Viaje();
         this.mostrarTabla = false;
-        this.myClass = true;
         this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
-        this.dataSource = this.usuario.viajes;
+        this.dataSource = [];
         this.clickedRows = new Set();
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();
@@ -72,10 +72,16 @@ var PasajerosComponent = /** @class */ (function () {
         this.mostrarTabla = false;
     };
     PasajerosComponent.prototype.seleccionarViaje = function (viaje) {
-        this.myClass = !this.myClass;
-        console.log(viaje);
+        this.viajeSeleccionado = viaje;
     };
     PasajerosComponent.prototype.reservarViaje = function () {
+        if (this.viajeSeleccionado.plazas <= 0) {
+            this.viajeSeleccionado.plazas = 0;
+            alert('Viaje completo, no se pueden reservar más plazas');
+        }
+        else {
+            this.viajeSeleccionado.plazas = this.viajeSeleccionado.plazas - 1;
+        }
     };
     PasajerosComponent = __decorate([
         core_1.Component({

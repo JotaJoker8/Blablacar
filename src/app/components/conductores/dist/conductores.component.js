@@ -33,7 +33,6 @@ var ConductoresComponent = /** @class */ (function () {
                 _this.usuario.viajes[i].marca = _this.usuario.marca;
                 _this.usuario.viajes[i].modelo = _this.usuario.modelo;
                 _this.dataSource.push(_this.usuario.viajes[i]);
-                console.log(_this.dataSource);
             }
         });
     };

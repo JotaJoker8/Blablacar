@@ -7,5 +7,5 @@ export class Viaje{
     public precio!: number
     public marca!: string
     public modelo!: string
-    public plazas!: string
+    public plazas!: number
 }

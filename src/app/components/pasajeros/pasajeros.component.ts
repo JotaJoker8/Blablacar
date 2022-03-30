@@ -24,13 +24,13 @@ export class PasajerosComponent implements OnInit {
   usuario: Usuario = new Usuario();
   viaje: Viaje = new Viaje();
   posiblesViajes: Viaje[] = [];
+  viajeSeleccionado: Viaje = new Viaje();
   minDateViaje!: Date;
   maxDateViaje!: Date;
   mostrarTabla: boolean = false;
-  myClass: boolean = true;
 
   displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
-  dataSource = this.usuario.viajes;
+  dataSource: Viaje[] = [];
   clickedRows = new Set<Viaje>();
 
   constructor(private comunicacionService: ComunicacionService) {
@@ -48,6 +48,7 @@ export class PasajerosComponent implements OnInit {
     this.suscripcionUsuario = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
       this.usuario.viajes = viajes;
       this.dataSource = this.usuario.viajes;
+
     })  
     
     this.formGroup = new FormGroup({
@@ -81,33 +82,16 @@ export class PasajerosComponent implements OnInit {
   }
 
   seleccionarViaje(viaje: Viaje){
-    this.myClass = !this.myClass;
-    console.log(viaje);
+    this.viajeSeleccionado = viaje;
   }
 
   reservarViaje(){
-
+    if(this.viajeSeleccionado.plazas <= 0){
+      this.viajeSeleccionado.plazas = 0;
+      alert('Viaje completo, no se pueden reservar más plazas');
+    }else{
+      this.viajeSeleccionado.plazas = this.viajeSeleccionado.plazas - 1;
+    }
   }
-
-  // getErrorOrigen(){
-  //   if (this.formGroup.get('viajeOrigen')?.hasError('required')) {
-  //     return 'Debes introducir un Origen';
-  //   }
-  //   return this.formGroup.get('viajeOrigen')?.hasError('pattern') ? 'Origen no válido' : '';
-  // }
-
-  // getErrorDestino(){
-  //   if (this.formGroup.get('viajeDestino')?.hasError('required')) {
-  //     return 'Debes introducir un Destino';
-  //   }
-  //   return this.formGroup.get('viajeDestino')?.hasError('pattern') ? 'Destino no válido' : '';
-  // }
-
-  // getErrorFecha(){
-  //   if (this.formGroup.get('viajeFecha')?.hasError('required')) {
-  //     return 'Debes introducir una fecha';
-  //   }
-  //   return this.formGroup.get('viajeFecha')?.hasError('pattern') ? 'Fecha no válida' : '';
-  // }
 
 }

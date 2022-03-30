@@ -19,15 +19,19 @@ table{
 th{
     border: solid black 1px;
     padding: 5rem;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
 }
 
 td{
     border: solid black 1px;
     padding: 2rem;
+    font-size: 17px;
 }
 
 .mat-row .mat-cell {
-    padding: 3rem;
+    padding: 1rem;
 }
 
 .mat-row:hover .mat-cell {
@@ -36,16 +40,6 @@ td{
 
 .demo-row-is-clicked {
     font-weight: bold;
-}
-
-th{
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
-}
-
-td{
-    font-size: 17px;
 }
 
 th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
