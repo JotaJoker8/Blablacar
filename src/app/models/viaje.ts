@@ -1,4 +1,18 @@
 export class Viaje{
+    constructor(viaje: Viaje | null) {
+        if(viaje){
+            this.conductor = viaje.conductor;
+            this.origen = viaje.origen;
+            this.destino = viaje.destino;
+            this.fecha = viaje.fecha;
+            this.hora = viaje.hora;
+            this.precio = viaje.precio;
+            this.marca = viaje.marca;
+            this.modelo = viaje.modelo;
+            this.plazas = viaje.plazas;
+            this.plazasReservadas = 1;
+        }
+    }
     public conductor!: string
     public origen!: string
     public destino!: string
@@ -8,4 +22,5 @@ export class Viaje{
     public marca!: string
     public modelo!: string
     public plazas!: number
+    public plazasReservadas: number = 0
 }

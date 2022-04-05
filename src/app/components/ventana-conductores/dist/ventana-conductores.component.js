@@ -15,7 +15,7 @@ var VentanaConductoresComponent = /** @class */ (function () {
     function VentanaConductoresComponent(dialog, comunicacionService) {
         this.dialog = dialog;
         this.comunicacionService = comunicacionService;
-        this.viaje = new viaje_1.Viaje();
+        this.viaje = new viaje_1.Viaje(null);
         this.usuario = new usuario_1.Usuario();
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();

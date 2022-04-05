@@ -1,0 +1,21 @@
+.container{
+    width: 80%;
+    height: 80%;
+    font-size: 25px;
+    text-align: center;
+}
+
+h1{
+    font-weight: bold;
+    font-size: 30px;
+    margin-left: 170px;
+}
+
+.mat-header-cell {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 40px;
+}

@@ -9,38 +9,34 @@ exports.__esModule = true;
 exports.PasajerosComponent = void 0;
 var core_1 = require("@angular/core");
 var forms_1 = require("@angular/forms");
-var core_2 = require("@angular/material/core");
 var usuario_1 = require("src/app/models/usuario");
 var viaje_1 = require("src/app/models/viaje");
+var ventana_viajes_reservados_component_1 = require("../ventana-viajes-reservados/ventana-viajes-reservados.component");
 var PasajerosComponent = /** @class */ (function () {
-    function PasajerosComponent(comunicacionService) {
+    function PasajerosComponent(comunicacionService, dialog) {
         this.comunicacionService = comunicacionService;
-        this.matcher = new core_2.ErrorStateMatcher();
+        this.dialog = dialog;
         this.usuario = new usuario_1.Usuario();
-        this.viaje = new viaje_1.Viaje();
-        this.posiblesViajes = [];
-        this.viajeSeleccionado = new viaje_1.Viaje();
-        this.mostrarTabla = false;
+        this.usuarios = [];
+        this.viajeSeleccionado = new viaje_1.Viaje(null);
         this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
         this.dataSource = [];
-        this.clickedRows = new Set();
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();
         var diaActual = new Date().getDate();
         this.minDateViaje = new Date(currentYear, mesActual, diaActual);
     }
-    PasajerosComponent.prototype.isErrorState = function (control, form) {
-        var isSubmitted = form && form.submitted;
-        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-    };
     PasajerosComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
             _this.usuario = usuario;
+            if (!_this.usuario.viajes) {
+                _this.usuario.viajes = [];
+            }
         });
-        this.suscripcionUsuario = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
-            _this.usuario.viajes = viajes;
-            _this.dataSource = _this.usuario.viajes;
+        this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
+            console.log(_this.usuario);
+            _this.dataSource = viajes;
         });
         this.formGroup = new forms_1.FormGroup({
             viajeOrigen: new forms_1.FormControl(''),
@@ -50,38 +46,49 @@ var PasajerosComponent = /** @class */ (function () {
     };
     PasajerosComponent.prototype.ngOnDestroy = function () {
         this.suscripcionUsuario.unsubscribe();
+        this.suscripcionViaje.unsubscribe();
     };
     PasajerosComponent.prototype.buscarViaje = function () {
         var _this = this;
-        this.posiblesViajes = this.usuario.viajes.filter(function (x) {
+        this.dataSource = this.usuario.viajes.filter(function (x) {
             var _a, _b, _c;
-            return x.origen == (_this.viaje.origen = (_a = _this.formGroup.get('viajeOrigen')) === null || _a === void 0 ? void 0 : _a.value) ||
-                x.destino == (_this.viaje.destino = (_b = _this.formGroup.get('viajeDestino')) === null || _b === void 0 ? void 0 : _b.value) ||
-                +x.fecha == +(_this.viaje.fecha = (_c = _this.formGroup.get('viajeFecha')) === null || _c === void 0 ? void 0 : _c.value);
+            return x.origen == ((_a = _this.formGroup.get('viajeOrigen')) === null || _a === void 0 ? void 0 : _a.value) ||
+                x.destino == ((_b = _this.formGroup.get('viajeDestino')) === null || _b === void 0 ? void 0 : _b.value) ||
+                +x.fecha == +((_c = _this.formGroup.get('viajeFecha')) === null || _c === void 0 ? void 0 : _c.value);
         });
-        this.dataSource = this.posiblesViajes;
-        if (this.dataSource.length > 0) {
-            this.mostrarTabla = true;
-        }
-        else {
-            alert('No se han encontrado viajes');
-        }
     };
     PasajerosComponent.prototype.limpiar = function () {
         this.ngOnInit();
-        this.mostrarTabla = false;
     };
     PasajerosComponent.prototype.seleccionarViaje = function (viaje) {
         this.viajeSeleccionado = viaje;
     };
     PasajerosComponent.prototype.reservarViaje = function () {
+        var viajeSeleccionado = new viaje_1.Viaje(this.viajeSeleccionado);
+        var isIncluded = false;
         if (this.viajeSeleccionado.plazas <= 0) {
             this.viajeSeleccionado.plazas = 0;
             alert('Viaje completo, no se pueden reservar más plazas');
         }
         else {
             this.viajeSeleccionado.plazas = this.viajeSeleccionado.plazas - 1;
+            for (var i = 0; i < this.usuario.viajes.length; i++) {
+                if (this.usuario.viajes[i].origen == this.viajeSeleccionado.origen &&
+                    this.usuario.viajes[i].destino == this.viajeSeleccionado.destino &&
+                    this.usuario.viajes[i].fecha == this.viajeSeleccionado.fecha &&
+                    this.usuario.viajes[i].hora == this.viajeSeleccionado.hora) {
+                    this.usuario.viajes[i].plazasReservadas++;
+                    isIncluded = true;
+                }
+            }
+            if (isIncluded == false) {
+                this.usuario.viajes.push(viajeSeleccionado);
+                console.log(this.usuario.viajes);
+            }
         }
+    };
+    PasajerosComponent.prototype.mostrarViajesReservados = function () {
+        this.dialog.open(ventana_viajes_reservados_component_1.VentanaViajesReservadosComponent);
     };
     PasajerosComponent = __decorate([
         core_1.Component({

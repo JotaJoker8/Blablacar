@@ -16,8 +16,7 @@ export class ConductoresComponent implements OnInit {
   suscripcionUsuario!: Subscription;
   suscripcionUsuario2!: Subscription;
   usuario: Usuario = new Usuario();
-  viaje: Viaje = new Viaje();
-
+  viaje: Viaje = new Viaje(null);
   displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'marca', 'modelo', 'plazas'];
   dataSource = this.usuario.viajes;
   clickedRows = new Set<Usuario>();

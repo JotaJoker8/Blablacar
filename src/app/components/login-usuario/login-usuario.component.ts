@@ -23,6 +23,10 @@ export class LoginUsuarioComponent implements OnInit {
   ngOnInit(): void {
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuarios.subscribe(usuarios => {
       this.usuarios = usuarios;
+      for (let i = 0; i < usuarios.length; i++) {
+        this.usuario = usuarios[i];
+        console.log(this.usuario);
+      }
     })
   }  
 

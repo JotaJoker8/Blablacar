@@ -15,7 +15,7 @@ export class VentanaConductoresComponent implements OnInit {
 
   formGroup!: FormGroup;
   suscripcionUsuario!: Subscription;
-  viaje: Viaje = new Viaje();
+  viaje: Viaje = new Viaje(null);
   usuario: Usuario = new Usuario();
   minDateViaje!: Date;
   

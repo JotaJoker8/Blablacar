@@ -18,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { VentanaViajesReservadosComponent } from './components/ventana-viajes-reservados/ventana-viajes-reservados.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatTableModule } from '@angular/material/table';
     ConductoresComponent,
     VentanaConductoresComponent,
     HeaderComponent,
-    PasajerosComponent
+    PasajerosComponent,
+    VentanaViajesReservadosComponent
   ],
   imports: [
     BrowserModule,

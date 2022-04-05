@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Usuario } from 'src/app/models/usuario';
 import { Viaje } from 'src/app/models/viaje';
 import { ComunicacionService } from 'src/app/services/comunicacion.service';
+import { VentanaViajesReservadosComponent } from '../ventana-viajes-reservados/ventana-viajes-reservados.component';
 
 @Component({
   selector: 'app-pasajeros',
@@ -13,27 +14,18 @@ import { ComunicacionService } from 'src/app/services/comunicacion.service';
 })
 export class PasajerosComponent implements OnInit {
 
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-
   suscripcionUsuario!: Subscription;
+  suscripcionViaje!: Subscription;
   formGroup!: FormGroup;
-  matcher = new ErrorStateMatcher();
   usuario: Usuario = new Usuario();
-  viaje: Viaje = new Viaje();
-  posiblesViajes: Viaje[] = [];
-  viajeSeleccionado: Viaje = new Viaje();
+  usuarios: Usuario[] = [];
+  viajeSeleccionado: Viaje = new Viaje(null);
   minDateViaje!: Date;
-  maxDateViaje!: Date;
-  mostrarTabla: boolean = false;
-
   displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
   dataSource: Viaje[] = [];
-  clickedRows = new Set<Viaje>();
 
-  constructor(private comunicacionService: ComunicacionService) {
+  constructor(private comunicacionService: ComunicacionService,
+    public dialog: MatDialog) {
     const currentYear = new Date().getFullYear();
     const mesActual = new Date().getMonth();
     const diaActual = new Date().getDate();
@@ -41,14 +33,17 @@ export class PasajerosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
+      if(!this.usuario.viajes){
+        this.usuario.viajes = [];
+      }
     })
 
-    this.suscripcionUsuario = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
-      this.usuario.viajes = viajes;
-      this.dataSource = this.usuario.viajes;
-
+    this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
+      console.log(this.usuario);
+      this.dataSource = viajes;
     })  
     
     this.formGroup = new FormGroup({
@@ -60,25 +55,19 @@ export class PasajerosComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.suscripcionUsuario.unsubscribe();
+    this.suscripcionViaje.unsubscribe();
   }
 
   buscarViaje(){
-    this.posiblesViajes = this.usuario.viajes.filter(x =>
-      x.origen == (this.viaje.origen = this.formGroup.get('viajeOrigen')?.value) ||
-      x.destino == (this.viaje.destino = this.formGroup.get('viajeDestino')?.value) ||
-      +x.fecha == +(this.viaje.fecha = this.formGroup.get('viajeFecha')?.value)
+    this.dataSource = this.usuario.viajes.filter(x =>
+      x.origen == (this.formGroup.get('viajeOrigen')?.value) ||
+      x.destino == (this.formGroup.get('viajeDestino')?.value) ||
+      +x.fecha == +(this.formGroup.get('viajeFecha')?.value)
     )
-    this.dataSource = this.posiblesViajes;
-    if(this.dataSource.length > 0){
-      this.mostrarTabla = true;
-    }else{
-      alert('No se han encontrado viajes');
-    }
   }
 
   limpiar(){
     this.ngOnInit();
-    this.mostrarTabla = false;
   }
 
   seleccionarViaje(viaje: Viaje){
@@ -86,12 +75,31 @@ export class PasajerosComponent implements OnInit {
   }
 
   reservarViaje(){
+    let viajeSeleccionado = new Viaje(this.viajeSeleccionado);
+    let isIncluded: boolean = false;
     if(this.viajeSeleccionado.plazas <= 0){
       this.viajeSeleccionado.plazas = 0;
       alert('Viaje completo, no se pueden reservar más plazas');
     }else{
       this.viajeSeleccionado.plazas = this.viajeSeleccionado.plazas - 1;
+      for (let i = 0; i < this.usuario.viajes.length; i++) {
+        if(this.usuario.viajes[i].origen == this.viajeSeleccionado.origen && 
+          this.usuario.viajes[i].destino == this.viajeSeleccionado.destino &&
+          this.usuario.viajes[i].fecha == this.viajeSeleccionado.fecha &&
+          this.usuario.viajes[i].hora == this.viajeSeleccionado.hora){
+          this.usuario.viajes[i].plazasReservadas++;
+          isIncluded = true;
+        }
+      }
+      if(isIncluded == false){
+        this.usuario.viajes.push(viajeSeleccionado);
+        console.log(this.usuario.viajes);
+      }
     }
+  }
+
+  mostrarViajesReservados(){
+    this.dialog.open(VentanaViajesReservadosComponent);
   }
 
 }
