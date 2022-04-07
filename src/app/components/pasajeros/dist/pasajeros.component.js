@@ -21,6 +21,8 @@ var PasajerosComponent = /** @class */ (function () {
         this.viajeSeleccionado = new viaje_1.Viaje(null);
         this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
         this.dataSource = [];
+        this.mostrarBotonReservar = false;
+        this.mostrarBotonReservas = false;
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();
         var diaActual = new Date().getDate();
@@ -33,9 +35,11 @@ var PasajerosComponent = /** @class */ (function () {
             if (!_this.usuario.viajes) {
                 _this.usuario.viajes = [];
             }
+            if (_this.usuario.viajes.length > 0) {
+                _this.mostrarBotonReservas = true;
+            }
         });
         this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
-            console.log(_this.usuario);
             _this.dataSource = viajes;
         });
         this.formGroup = new forms_1.FormGroup({
@@ -62,8 +66,10 @@ var PasajerosComponent = /** @class */ (function () {
     };
     PasajerosComponent.prototype.seleccionarViaje = function (viaje) {
         this.viajeSeleccionado = viaje;
+        this.mostrarBotonReservar = true;
     };
     PasajerosComponent.prototype.reservarViaje = function () {
+        this.mostrarBotonReservas = true;
         var viajeSeleccionado = new viaje_1.Viaje(this.viajeSeleccionado);
         var isIncluded = false;
         if (this.viajeSeleccionado.plazas <= 0) {
@@ -83,7 +89,6 @@ var PasajerosComponent = /** @class */ (function () {
             }
             if (isIncluded == false) {
                 this.usuario.viajes.push(viajeSeleccionado);
-                console.log(this.usuario.viajes);
             }
         }
     };

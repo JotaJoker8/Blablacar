@@ -19,3 +19,10 @@ h1{
 th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 40px;
 }
+
+.botones{
+    width: 6rem;
+    height: 3rem;
+    font-size: 14px;
+    margin-right: 1rem;
+}

@@ -25,7 +25,6 @@ export class LoginUsuarioComponent implements OnInit {
       this.usuarios = usuarios;
       for (let i = 0; i < usuarios.length; i++) {
         this.usuario = usuarios[i];
-        console.log(this.usuario);
       }
     })
   }  

@@ -22,7 +22,7 @@
                 <h2>Buscador de viajes</h2>
                 <input class="botones" type="submit" value="Buscar">
                 <input class="botones" type="button" value="Limpiar" (click)="limpiar()">
-                <input class="botonReserva" type="button" value="Viajes Reservados" (click)="mostrarViajesReservados()">
+                <input *ngIf="mostrarBotonReservas" class="botonReserva" type="button" value="Viajes Reservados" (click)="mostrarViajesReservados()">
             </div>
         </div>
     </form>
@@ -60,5 +60,5 @@
             [ngClass]="row == viajeSeleccionado ? 'gris' : 'blanco'">
         </tr>
     </table>
-    <input class="botones" type="button" value="Reservar" (click)="reservarViaje()">
+    <input *ngIf="mostrarBotonReservar" class="botones" type="button" value="Reservar" (click)="reservarViaje()">
 </div>

@@ -9,22 +9,40 @@ exports.__esModule = true;
 exports.VentanaViajesReservadosComponent = void 0;
 var core_1 = require("@angular/core");
 var usuario_1 = require("src/app/models/usuario");
+var viaje_1 = require("src/app/models/viaje");
 var VentanaViajesReservadosComponent = /** @class */ (function () {
     function VentanaViajesReservadosComponent(comunicacionService) {
         this.comunicacionService = comunicacionService;
         this.usuario = new usuario_1.Usuario();
-        this.dataSource = [];
-        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas'];
+        this.viajeReservado = new viaje_1.Viaje(null);
+        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas', 'borrarViaje'];
     }
     VentanaViajesReservadosComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
-            _this.usuario.viajes = viajes;
-            _this.dataSource = _this.usuario.viajes;
+        this.usuario.viajes = [];
+        this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
+            _this.usuario = usuario;
+            for (var i = 0; i < usuario.viajes.length; i++) {
+                _this.viajeReservado = _this.usuario.viajes[i];
+            }
         });
     };
     VentanaViajesReservadosComponent.prototype.ngOnDestroy = function () {
-        this.suscripcionViaje.unsubscribe();
+        this.suscripcionUsuario.unsubscribe();
+    };
+    VentanaViajesReservadosComponent.prototype.borrarViaje = function (viajeReservado) {
+        this.viajeReservado = viajeReservado;
+        for (var i = 0; i < this.usuario.viajes.length; i++) {
+            if (this.usuario.viajes[i].origen == this.viajeReservado.origen &&
+                this.usuario.viajes[i].destino == this.viajeReservado.destino &&
+                this.usuario.viajes[i].fecha == this.viajeReservado.fecha &&
+                this.usuario.viajes[i].hora == this.viajeReservado.hora) {
+                this.usuario.viajes[i].plazasReservadas--;
+            }
+        }
+        if (this.viajeReservado.plazasReservadas == 0) {
+            this.usuario.viajes = [];
+        }
     };
     VentanaViajesReservadosComponent = __decorate([
         core_1.Component({

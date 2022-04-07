@@ -11,22 +11,41 @@ import { ComunicacionService } from 'src/app/services/comunicacion.service';
 })
 export class VentanaViajesReservadosComponent implements OnInit {
 
-  suscripcionViaje!: Subscription;
+  suscripcionUsuario!: Subscription;
   usuario: Usuario = new Usuario();
-  dataSource: Viaje[] = [];
-  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas'];
+  viajeReservado: Viaje = new Viaje(null);
+  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas', 'borrarViaje'];
 
   constructor(private comunicacionService: ComunicacionService,) { }
 
   ngOnInit(): void {
-    this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
-      this.usuario.viajes = viajes;
-      this.dataSource = this.usuario.viajes;
-    })  
+    this.usuario.viajes = [];
+    this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
+      this.usuario = usuario;
+      for (let i = 0; i < usuario.viajes.length; i++) {
+        this.viajeReservado = this.usuario.viajes[i];
+      }
+    })
+    
   }
 
   ngOnDestroy(): void {
-    this.suscripcionViaje.unsubscribe();
+    this.suscripcionUsuario.unsubscribe();
   }
 
+  borrarViaje(viajeReservado: Viaje){
+    this.viajeReservado = viajeReservado;
+    for (let i = 0; i < this.usuario.viajes.length; i++) {
+      if(this.usuario.viajes[i].origen == this.viajeReservado.origen && 
+        this.usuario.viajes[i].destino == this.viajeReservado.destino &&
+        this.usuario.viajes[i].fecha == this.viajeReservado.fecha &&
+        this.usuario.viajes[i].hora == this.viajeReservado.hora){
+        this.usuario.viajes[i].plazasReservadas--;
+      }
+    }
+   
+    if(this.viajeReservado.plazasReservadas == 0){
+      this.usuario.viajes = [];
+    }
+  }
 }

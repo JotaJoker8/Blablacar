@@ -23,6 +23,8 @@ export class PasajerosComponent implements OnInit {
   minDateViaje!: Date;
   displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
   dataSource: Viaje[] = [];
+  mostrarBotonReservar: boolean = false;
+  mostrarBotonReservas: boolean = false;
 
   constructor(private comunicacionService: ComunicacionService,
     public dialog: MatDialog) {
@@ -33,19 +35,20 @@ export class PasajerosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
       if(!this.usuario.viajes){
         this.usuario.viajes = [];
       }
+      if(this.usuario.viajes.length > 0){
+        this.mostrarBotonReservas = true;
+      }
     })
 
     this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
-      console.log(this.usuario);
       this.dataSource = viajes;
     })  
-    
+
     this.formGroup = new FormGroup({
       viajeOrigen : new FormControl(''),
       viajeDestino : new FormControl(''),
@@ -72,9 +75,11 @@ export class PasajerosComponent implements OnInit {
 
   seleccionarViaje(viaje: Viaje){
     this.viajeSeleccionado = viaje;
+    this.mostrarBotonReservar = true;
   }
 
   reservarViaje(){
+    this.mostrarBotonReservas = true;
     let viajeSeleccionado = new Viaje(this.viajeSeleccionado);
     let isIncluded: boolean = false;
     if(this.viajeSeleccionado.plazas <= 0){
@@ -93,7 +98,6 @@ export class PasajerosComponent implements OnInit {
       }
       if(isIncluded == false){
         this.usuario.viajes.push(viajeSeleccionado);
-        console.log(this.usuario.viajes);
       }
     }
   }

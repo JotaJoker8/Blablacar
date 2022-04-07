@@ -24,7 +24,6 @@ var LoginUsuarioComponent = /** @class */ (function () {
             _this.usuarios = usuarios;
             for (var i = 0; i < usuarios.length; i++) {
                 _this.usuario = usuarios[i];
-                console.log(_this.usuario);
             }
         });
     };
