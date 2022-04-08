@@ -41,6 +41,7 @@ var PasajerosComponent = /** @class */ (function () {
         });
         this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
             _this.dataSource = viajes;
+            console.log(_this.dataSource);
         });
         this.formGroup = new forms_1.FormGroup({
             viajeOrigen: new forms_1.FormControl(''),

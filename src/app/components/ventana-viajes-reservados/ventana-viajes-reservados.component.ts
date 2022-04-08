@@ -22,30 +22,25 @@ export class VentanaViajesReservadosComponent implements OnInit {
     this.usuario.viajes = [];
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
-      for (let i = 0; i < usuario.viajes.length; i++) {
-        this.viajeReservado = this.usuario.viajes[i];
-      }
+      console.log(this.usuario);
     })
-    
   }
 
   ngOnDestroy(): void {
     this.suscripcionUsuario.unsubscribe();
   }
 
-  borrarViaje(viajeReservado: Viaje){
-    this.viajeReservado = viajeReservado;
+  borrarViaje(viaje: Viaje){
     for (let i = 0; i < this.usuario.viajes.length; i++) {
-      if(this.usuario.viajes[i].origen == this.viajeReservado.origen && 
-        this.usuario.viajes[i].destino == this.viajeReservado.destino &&
-        this.usuario.viajes[i].fecha == this.viajeReservado.fecha &&
-        this.usuario.viajes[i].hora == this.viajeReservado.hora){
+      if(this.usuario.viajes[i].origen == viaje.origen && 
+        this.usuario.viajes[i].destino == viaje.destino &&
+        this.usuario.viajes[i].fecha == viaje.fecha &&
+        this.usuario.viajes[i].hora == viaje.hora){
         this.usuario.viajes[i].plazasReservadas--;
+        if(this.usuario.viajes[i].plazasReservadas == 0){
+          this.usuario.viajes.splice(i, 1);
+        }
       }
-    }
-   
-    if(this.viajeReservado.plazasReservadas == 0){
-      this.usuario.viajes = [];
     }
   }
 }

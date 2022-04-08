@@ -47,6 +47,7 @@ export class PasajerosComponent implements OnInit {
 
     this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
       this.dataSource = viajes;
+      console.log(this.dataSource);
     })  
 
     this.formGroup = new FormGroup({

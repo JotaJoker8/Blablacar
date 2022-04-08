@@ -32,10 +32,10 @@
         <ng-container matColumnDef="borrarViaje">
             <th mat-header-cell *matHeaderCellDef>BORRAR PLAZA</th>
             <td mat-cell *matCellDef="let element">
-                <input class="botones" type="button" value="Borrar Plaza" (click)="borrarViaje(viajeReservado)">
+                <input class="botones" type="button" value="Borrar Plaza">
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row (click)="borrarViaje(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
