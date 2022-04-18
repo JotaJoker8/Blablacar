@@ -32,7 +32,8 @@ export class VentanaConductoresComponent implements OnInit {
       viajeDestino: new FormControl('', Validators.required),
       viajeFecha : new FormControl('', Validators.required),
       viajeHora : new FormControl('', Validators.pattern('[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}')),
-      viajePrecio : new FormControl('', Validators.pattern('[0-9]{2}')),
+      // viajePrecioPlaza : new FormControl('', Validators.pattern('[0-9]{2}')),
+      viajePrecioPlaza : new FormControl('', Validators.required),
       viajePlazas : new FormControl('', Validators.pattern('[1-7]{1}'))
     });
     
@@ -51,7 +52,7 @@ export class VentanaConductoresComponent implements OnInit {
     this.viaje.destino = this.formGroup.get('viajeDestino')?.value;
     this.viaje.fecha = this.formGroup.get('viajeFecha')?.value;
     this.viaje.hora = this.formGroup.get('viajeHora')?.value;
-    this.viaje.precio = this.formGroup.get('viajePrecio')?.value;
+    this.viaje.precioPlaza = this.formGroup.get('viajePrecioPlaza')?.value;
     this.viaje.plazas = this.formGroup.get('viajePlazas')?.value;
     this.comunicacionService.agregarViajes(this.viaje);
     this.dialog.closeAll();

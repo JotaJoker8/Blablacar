@@ -29,7 +29,8 @@ var VentanaConductoresComponent = /** @class */ (function () {
             viajeDestino: new forms_1.FormControl('', forms_1.Validators.required),
             viajeFecha: new forms_1.FormControl('', forms_1.Validators.required),
             viajeHora: new forms_1.FormControl('', forms_1.Validators.pattern('[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}')),
-            viajePrecio: new forms_1.FormControl('', forms_1.Validators.pattern('[0-9]{2}')),
+            // viajePrecioPlaza : new FormControl('', Validators.pattern('[0-9]{2}')),
+            viajePrecioPlaza: new forms_1.FormControl('', forms_1.Validators.required),
             viajePlazas: new forms_1.FormControl('', forms_1.Validators.pattern('[1-7]{1}'))
         });
         this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
@@ -46,7 +47,7 @@ var VentanaConductoresComponent = /** @class */ (function () {
         this.viaje.destino = (_b = this.formGroup.get('viajeDestino')) === null || _b === void 0 ? void 0 : _b.value;
         this.viaje.fecha = (_c = this.formGroup.get('viajeFecha')) === null || _c === void 0 ? void 0 : _c.value;
         this.viaje.hora = (_d = this.formGroup.get('viajeHora')) === null || _d === void 0 ? void 0 : _d.value;
-        this.viaje.precio = (_e = this.formGroup.get('viajePrecio')) === null || _e === void 0 ? void 0 : _e.value;
+        this.viaje.precioPlaza = (_e = this.formGroup.get('viajePrecioPlaza')) === null || _e === void 0 ? void 0 : _e.value;
         this.viaje.plazas = (_f = this.formGroup.get('viajePlazas')) === null || _f === void 0 ? void 0 : _f.value;
         this.comunicacionService.agregarViajes(this.viaje);
         this.dialog.closeAll();

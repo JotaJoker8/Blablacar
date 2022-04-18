@@ -49,6 +49,7 @@ export class AltaUsuarioComponent implements OnInit {
       usuarioMarca : new FormControl('', Validators.pattern('[a-zA-Z]{4,10}')),
       usuarioModelo : new FormControl('', Validators.pattern('[a-zA-Z0-9]{2,10}'))
     });
+    
   }
 
   guardarRespuestaTipoUsuario(){

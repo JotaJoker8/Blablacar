@@ -21,10 +21,11 @@ export class PasajerosComponent implements OnInit {
   usuarios: Usuario[] = [];
   viajeSeleccionado: Viaje = new Viaje(null);
   minDateViaje!: Date;
-  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
+  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'plazas'];
   dataSource: Viaje[] = [];
   mostrarBotonReservar: boolean = false;
   mostrarBotonReservas: boolean = false;
+  saldoConductor: number = 0;
 
   constructor(private comunicacionService: ComunicacionService,
     public dialog: MatDialog) {
@@ -47,7 +48,6 @@ export class PasajerosComponent implements OnInit {
 
     this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
       this.dataSource = viajes;
-      console.log(this.dataSource);
     })  
 
     this.formGroup = new FormGroup({
@@ -63,7 +63,8 @@ export class PasajerosComponent implements OnInit {
   }
 
   buscarViaje(){
-    this.dataSource = this.usuario.viajes.filter(x =>
+    this.mostrarBotonReservar = false;
+    this.dataSource = this.dataSource.filter(x =>
       x.origen == (this.formGroup.get('viajeOrigen')?.value) ||
       x.destino == (this.formGroup.get('viajeDestino')?.value) ||
       +x.fecha == +(this.formGroup.get('viajeFecha')?.value)
@@ -72,6 +73,7 @@ export class PasajerosComponent implements OnInit {
 
   limpiar(){
     this.ngOnInit();
+    this.mostrarBotonReservar = false;
   }
 
   seleccionarViaje(viaje: Viaje){
@@ -99,6 +101,24 @@ export class PasajerosComponent implements OnInit {
       }
       if(isIncluded == false){
         this.usuario.viajes.push(viajeSeleccionado);
+      }
+      if(this.usuario.rol == 'Pasajero'){
+        this.usuario.saldo = this.usuario.saldo - this.viajeSeleccionado.precioPlaza;
+        this.saldoConductor = +this.saldoConductor + +this.viajeSeleccionado.precioPlaza;
+      }
+      if(this.usuario.saldo < 0){
+        alert('El usuario no tiene suficiente saldo');
+        this.viajeSeleccionado.plazas = +this.viajeSeleccionado.plazas + +1;
+        this.usuario.saldo = +this.usuario.saldo + +this.viajeSeleccionado.precioPlaza;
+        for (let i = 0; i < this.usuario.viajes.length; i++) {
+          if(this.usuario.viajes[i].origen == this.viajeSeleccionado.origen && 
+            this.usuario.viajes[i].destino == this.viajeSeleccionado.destino &&
+            this.usuario.viajes[i].fecha == this.viajeSeleccionado.fecha &&
+            this.usuario.viajes[i].hora == this.viajeSeleccionado.hora){
+            this.usuario.viajes[i].plazasReservadas--;
+            isIncluded = true;
+          }
+        }  
       }
     }
   }

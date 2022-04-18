@@ -14,10 +14,9 @@ import { Viaje } from 'src/app/models/viaje';
 export class ConductoresComponent implements OnInit {
 
   suscripcionUsuario!: Subscription;
-  suscripcionUsuario2!: Subscription;
+  suscripcionViaje!: Subscription;
   usuario: Usuario = new Usuario();
-  viaje: Viaje = new Viaje(null);
-  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'marca', 'modelo', 'plazas'];
+  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'marca', 'modelo', 'plazas'];
   dataSource = this.usuario.viajes;
   clickedRows = new Set<Usuario>();
 
@@ -25,11 +24,11 @@ export class ConductoresComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.suscripcionUsuario2 = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
+    this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
     })
 
-    this.suscripcionUsuario = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
+    this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
       this.usuario.viajes = viajes.filter(x => x.conductor == this.usuario.nombre);
       this.dataSource = [];
       for (let i = 0; i < this.usuario.viajes.length; i++) {
@@ -42,7 +41,7 @@ export class ConductoresComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.suscripcionUsuario.unsubscribe();
-    this.suscripcionUsuario2.unsubscribe();
+    this.suscripcionViaje.unsubscribe();
   }
 
   agregarConductor() {

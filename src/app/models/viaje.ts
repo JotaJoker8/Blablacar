@@ -6,7 +6,7 @@ export class Viaje{
             this.destino = viaje.destino;
             this.fecha = viaje.fecha;
             this.hora = viaje.hora;
-            this.precio = viaje.precio;
+            this.precioPlaza = viaje.precioPlaza;
             this.marca = viaje.marca;
             this.modelo = viaje.modelo;
             this.plazas = viaje.plazas;
@@ -18,7 +18,7 @@ export class Viaje{
     public destino!: string
     public fecha!: string
     public hora!: string
-    public precio!: number
+    public precioPlaza!: number
     public marca!: string
     public modelo!: string
     public plazas!: number

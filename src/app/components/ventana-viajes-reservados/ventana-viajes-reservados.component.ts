@@ -12,9 +12,12 @@ import { ComunicacionService } from 'src/app/services/comunicacion.service';
 export class VentanaViajesReservadosComponent implements OnInit {
 
   suscripcionUsuario!: Subscription;
+  suscripcionViaje!: Subscription;
   usuario: Usuario = new Usuario();
+  dataSource: Viaje[] = [];
   viajeReservado: Viaje = new Viaje(null);
-  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas', 'borrarViaje'];
+  displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'plazasReservadas', 'borrarViaje'];
+  mostrarBoton: boolean = true;
 
   constructor(private comunicacionService: ComunicacionService,) { }
 
@@ -22,12 +25,16 @@ export class VentanaViajesReservadosComponent implements OnInit {
     this.usuario.viajes = [];
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
-      console.log(this.usuario);
     })
+
+    this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
+      this.dataSource = viajes;
+    })  
   }
 
   ngOnDestroy(): void {
     this.suscripcionUsuario.unsubscribe();
+    this.suscripcionViaje.unsubscribe();
   }
 
   borrarViaje(viaje: Viaje){
@@ -37,10 +44,21 @@ export class VentanaViajesReservadosComponent implements OnInit {
         this.usuario.viajes[i].fecha == viaje.fecha &&
         this.usuario.viajes[i].hora == viaje.hora){
         this.usuario.viajes[i].plazasReservadas--;
+        this.usuario.saldo = +this.usuario.saldo + +this.usuario.viajes[i].precioPlaza;
+        console.log(this.usuario.viajes[i].plazas);
         if(this.usuario.viajes[i].plazasReservadas == 0){
           this.usuario.viajes.splice(i, 1);
+          this.mostrarBoton = false;
         }
       }
+    }
+    for (let i = 0; i < this.dataSource.length; i++) {
+      if(this.dataSource[i].origen == viaje.origen && 
+        this.dataSource[i].destino == viaje.destino &&
+        this.dataSource[i].fecha == viaje.fecha &&
+        this.dataSource[i].hora == viaje.hora){
+          this.dataSource[i].plazas++;
+        }
     }
   }
 }

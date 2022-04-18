@@ -10,23 +10,21 @@ exports.ConductoresComponent = void 0;
 var core_1 = require("@angular/core");
 var usuario_1 = require("src/app/models/usuario");
 var ventana_conductores_component_1 = require("../ventana-conductores/ventana-conductores.component");
-var viaje_1 = require("src/app/models/viaje");
 var ConductoresComponent = /** @class */ (function () {
     function ConductoresComponent(comunicacionService, dialog) {
         this.comunicacionService = comunicacionService;
         this.dialog = dialog;
         this.usuario = new usuario_1.Usuario();
-        this.viaje = new viaje_1.Viaje(null);
-        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'marca', 'modelo', 'plazas'];
+        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'marca', 'modelo', 'plazas'];
         this.dataSource = this.usuario.viajes;
         this.clickedRows = new Set();
     }
     ConductoresComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.suscripcionUsuario2 = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
+        this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
             _this.usuario = usuario;
         });
-        this.suscripcionUsuario = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
+        this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
             _this.usuario.viajes = viajes.filter(function (x) { return x.conductor == _this.usuario.nombre; });
             _this.dataSource = [];
             for (var i = 0; i < _this.usuario.viajes.length; i++) {
@@ -38,7 +36,7 @@ var ConductoresComponent = /** @class */ (function () {
     };
     ConductoresComponent.prototype.ngOnDestroy = function () {
         this.suscripcionUsuario.unsubscribe();
-        this.suscripcionUsuario2.unsubscribe();
+        this.suscripcionViaje.unsubscribe();
     };
     ConductoresComponent.prototype.agregarConductor = function () {
         this.dialog.open(ventana_conductores_component_1.VentanaConductoresComponent);

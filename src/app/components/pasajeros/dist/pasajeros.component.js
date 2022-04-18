@@ -19,10 +19,11 @@ var PasajerosComponent = /** @class */ (function () {
         this.usuario = new usuario_1.Usuario();
         this.usuarios = [];
         this.viajeSeleccionado = new viaje_1.Viaje(null);
-        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazas'];
+        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'plazas'];
         this.dataSource = [];
         this.mostrarBotonReservar = false;
         this.mostrarBotonReservas = false;
+        this.saldoConductor = 0;
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();
         var diaActual = new Date().getDate();
@@ -41,7 +42,6 @@ var PasajerosComponent = /** @class */ (function () {
         });
         this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
             _this.dataSource = viajes;
-            console.log(_this.dataSource);
         });
         this.formGroup = new forms_1.FormGroup({
             viajeOrigen: new forms_1.FormControl(''),
@@ -55,7 +55,8 @@ var PasajerosComponent = /** @class */ (function () {
     };
     PasajerosComponent.prototype.buscarViaje = function () {
         var _this = this;
-        this.dataSource = this.usuario.viajes.filter(function (x) {
+        this.mostrarBotonReservar = false;
+        this.dataSource = this.dataSource.filter(function (x) {
             var _a, _b, _c;
             return x.origen == ((_a = _this.formGroup.get('viajeOrigen')) === null || _a === void 0 ? void 0 : _a.value) ||
                 x.destino == ((_b = _this.formGroup.get('viajeDestino')) === null || _b === void 0 ? void 0 : _b.value) ||
@@ -64,6 +65,7 @@ var PasajerosComponent = /** @class */ (function () {
     };
     PasajerosComponent.prototype.limpiar = function () {
         this.ngOnInit();
+        this.mostrarBotonReservar = false;
     };
     PasajerosComponent.prototype.seleccionarViaje = function (viaje) {
         this.viajeSeleccionado = viaje;
@@ -90,6 +92,24 @@ var PasajerosComponent = /** @class */ (function () {
             }
             if (isIncluded == false) {
                 this.usuario.viajes.push(viajeSeleccionado);
+            }
+            if (this.usuario.rol == 'Pasajero') {
+                this.usuario.saldo = this.usuario.saldo - this.viajeSeleccionado.precioPlaza;
+                this.saldoConductor = +this.saldoConductor + +this.viajeSeleccionado.precioPlaza;
+            }
+            if (this.usuario.saldo < 0) {
+                alert('El usuario no tiene suficiente saldo');
+                this.viajeSeleccionado.plazas = +this.viajeSeleccionado.plazas + +1;
+                this.usuario.saldo = +this.usuario.saldo + +this.viajeSeleccionado.precioPlaza;
+                for (var i = 0; i < this.usuario.viajes.length; i++) {
+                    if (this.usuario.viajes[i].origen == this.viajeSeleccionado.origen &&
+                        this.usuario.viajes[i].destino == this.viajeSeleccionado.destino &&
+                        this.usuario.viajes[i].fecha == this.viajeSeleccionado.fecha &&
+                        this.usuario.viajes[i].hora == this.viajeSeleccionado.hora) {
+                        this.usuario.viajes[i].plazasReservadas--;
+                        isIncluded = true;
+                    }
+                }
             }
         }
     };

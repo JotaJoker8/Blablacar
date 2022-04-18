@@ -14,19 +14,24 @@ var VentanaViajesReservadosComponent = /** @class */ (function () {
     function VentanaViajesReservadosComponent(comunicacionService) {
         this.comunicacionService = comunicacionService;
         this.usuario = new usuario_1.Usuario();
+        this.dataSource = [];
         this.viajeReservado = new viaje_1.Viaje(null);
-        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precio', 'plazasReservadas', 'borrarViaje'];
+        this.displayedColumns = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'plazasReservadas', 'borrarViaje'];
+        this.mostrarBoton = true;
     }
     VentanaViajesReservadosComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.usuario.viajes = [];
         this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
             _this.usuario = usuario;
-            console.log(_this.usuario);
+        });
+        this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(function (viajes) {
+            _this.dataSource = viajes;
         });
     };
     VentanaViajesReservadosComponent.prototype.ngOnDestroy = function () {
         this.suscripcionUsuario.unsubscribe();
+        this.suscripcionViaje.unsubscribe();
     };
     VentanaViajesReservadosComponent.prototype.borrarViaje = function (viaje) {
         for (var i = 0; i < this.usuario.viajes.length; i++) {
@@ -35,9 +40,20 @@ var VentanaViajesReservadosComponent = /** @class */ (function () {
                 this.usuario.viajes[i].fecha == viaje.fecha &&
                 this.usuario.viajes[i].hora == viaje.hora) {
                 this.usuario.viajes[i].plazasReservadas--;
+                this.usuario.saldo = +this.usuario.saldo + +this.usuario.viajes[i].precioPlaza;
+                console.log(this.usuario.viajes[i].plazas);
                 if (this.usuario.viajes[i].plazasReservadas == 0) {
                     this.usuario.viajes.splice(i, 1);
+                    this.mostrarBoton = false;
                 }
+            }
+        }
+        for (var i = 0; i < this.dataSource.length; i++) {
+            if (this.dataSource[i].origen == viaje.origen &&
+                this.dataSource[i].destino == viaje.destino &&
+                this.dataSource[i].fecha == viaje.fecha &&
+                this.dataSource[i].hora == viaje.hora) {
+                this.dataSource[i].plazas++;
             }
         }
     };

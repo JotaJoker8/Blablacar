@@ -19,6 +19,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
+      if(this.usuario.viajes.length == 0 && this.usuario.rol == 'Conductor'){
+        this.usuario.saldo = 0;
+      }
+      if(this.usuario.viajes.length == 0 && this.usuario.rol == 'Pasajero'){
+        this.usuario.saldo = 50;
+      }
     })
   }
 
