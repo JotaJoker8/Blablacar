@@ -14,10 +14,10 @@ export class VentanaViajesReservadosComponent implements OnInit {
   suscripcionUsuario!: Subscription;
   suscripcionViaje!: Subscription;
   usuario: Usuario = new Usuario();
+  usuarios: Usuario[] = [];
   dataSource: Viaje[] = [];
   viajeReservado: Viaje = new Viaje(null);
   displayedColumns: string[] = ['conductor', 'origen', 'destino', 'fecha', 'hora', 'precioPlaza', 'plazasReservadas', 'borrarViaje'];
-  mostrarBoton: boolean = true;
 
   constructor(private comunicacionService: ComunicacionService,) { }
 
@@ -25,6 +25,10 @@ export class VentanaViajesReservadosComponent implements OnInit {
     this.usuario.viajes = [];
     this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(usuario => {
       this.usuario = usuario;
+    })
+
+    this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuarios.subscribe(usuarios => {
+      this.usuarios = usuarios;
     })
 
     this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
@@ -44,11 +48,15 @@ export class VentanaViajesReservadosComponent implements OnInit {
         this.usuario.viajes[i].fecha == viaje.fecha &&
         this.usuario.viajes[i].hora == viaje.hora){
         this.usuario.viajes[i].plazasReservadas--;
+        this.usuario.viajes[i].plazas++;
         this.usuario.saldo = +this.usuario.saldo + +this.usuario.viajes[i].precioPlaza;
-        console.log(this.usuario.viajes[i].plazas);
+        for (let i = 0; i < this.usuarios.length; i++) {
+          if(this.usuarios[i].nombre == viaje.conductor){
+            this.usuarios[i].saldo = this.usuarios[i].saldo - viaje.precioPlaza;
+          }
+        }
         if(this.usuario.viajes[i].plazasReservadas == 0){
           this.usuario.viajes.splice(i, 1);
-          this.mostrarBoton = false;
         }
       }
     }

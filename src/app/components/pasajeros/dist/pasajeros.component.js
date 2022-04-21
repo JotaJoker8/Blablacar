@@ -23,7 +23,6 @@ var PasajerosComponent = /** @class */ (function () {
         this.dataSource = [];
         this.mostrarBotonReservar = false;
         this.mostrarBotonReservas = false;
-        this.saldoConductor = 0;
         var currentYear = new Date().getFullYear();
         var mesActual = new Date().getMonth();
         var diaActual = new Date().getDate();
@@ -95,7 +94,15 @@ var PasajerosComponent = /** @class */ (function () {
             }
             if (this.usuario.rol == 'Pasajero') {
                 this.usuario.saldo = this.usuario.saldo - this.viajeSeleccionado.precioPlaza;
-                this.saldoConductor = +this.saldoConductor + +this.viajeSeleccionado.precioPlaza;
+                for (var i = 0; i < this.usuarios.length; i++) {
+                    var conductores = this.usuarios[i].nombre;
+                    for (var j = 0; j < this.usuario.viajes.length; j++) {
+                        if (conductores == this.usuario.viajes[j].conductor) {
+                            this.usuario.saldoConductor = +this.usuario.saldoConductor + +viajeSeleccionado.precioPlaza;
+                            console.log(this.usuario.saldoConductor);
+                        }
+                    }
+                }
             }
             if (this.usuario.saldo < 0) {
                 alert('El usuario no tiene suficiente saldo');

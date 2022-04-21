@@ -32,8 +32,7 @@ export class VentanaConductoresComponent implements OnInit {
       viajeDestino: new FormControl('', Validators.required),
       viajeFecha : new FormControl('', Validators.required),
       viajeHora : new FormControl('', Validators.pattern('[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}')),
-      // viajePrecioPlaza : new FormControl('', Validators.pattern('[0-9]{2}')),
-      viajePrecioPlaza : new FormControl('', Validators.required),
+      viajePrecioPlaza : new FormControl('', Validators.pattern('[0-9]{2}')),
       viajePlazas : new FormControl('', Validators.pattern('[1-7]{1}'))
     });
     
@@ -46,16 +45,20 @@ export class VentanaConductoresComponent implements OnInit {
     this.suscripcionUsuario.unsubscribe();
   }
 
-  agregarViaje(){
-    this.viaje.conductor = this.usuario.nombre;
-    this.viaje.origen = this.formGroup.get('viajeOrigen')?.value;
-    this.viaje.destino = this.formGroup.get('viajeDestino')?.value;
-    this.viaje.fecha = this.formGroup.get('viajeFecha')?.value;
-    this.viaje.hora = this.formGroup.get('viajeHora')?.value;
-    this.viaje.precioPlaza = this.formGroup.get('viajePrecioPlaza')?.value;
-    this.viaje.plazas = this.formGroup.get('viajePlazas')?.value;
-    this.comunicacionService.agregarViajes(this.viaje);
-    this.dialog.closeAll();
+  agregarViaje(registroForm: any){
+    if(registroForm.valid){
+      this.viaje.conductor = this.usuario.nombre;
+      this.viaje.origen = this.formGroup.get('viajeOrigen')?.value;
+      this.viaje.destino = this.formGroup.get('viajeDestino')?.value;
+      this.viaje.fecha = this.formGroup.get('viajeFecha')?.value;
+      this.viaje.hora = this.formGroup.get('viajeHora')?.value;
+      this.viaje.precioPlaza = this.formGroup.get('viajePrecioPlaza')?.value;
+      this.viaje.plazas = this.formGroup.get('viajePlazas')?.value;
+      this.comunicacionService.agregarViajes(this.viaje);
+      this.dialog.closeAll();
+    }else{
+      alert('Formulario incorrecto');
+    }
   }
 
   getErrorOrigen(){
@@ -87,10 +90,10 @@ export class VentanaConductoresComponent implements OnInit {
   }
 
   getErrorPrecio(){
-    if (this.formGroup.get('viajePrecio')?.hasError('required')) {
+    if (this.formGroup.get('viajePrecioPlaza')?.hasError('required')) {
       return 'Debes introducir un Precio';
     }
-    return this.formGroup.get('viajePrecio')?.hasError('pattern') ? 'Precio no válido' : '';
+    return this.formGroup.get('viajePrecioPlaza')?.hasError('pattern') ? 'Precio no válido' : '';
   }
 
   getErrorPlazas(){

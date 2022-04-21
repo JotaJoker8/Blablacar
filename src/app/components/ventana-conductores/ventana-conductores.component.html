@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Mis Viajes</h1>
-    <form [formGroup]="formGroup" (ngSubmit)="agregarViaje()" class="example-form">
+    <form [formGroup]="formGroup" #registroForm="ngForm" (ngSubmit)="agregarViaje(registroForm)" class="example-form">
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Lugar Origen: </mat-label>
           <input matInput required formControlName="viajeOrigen">

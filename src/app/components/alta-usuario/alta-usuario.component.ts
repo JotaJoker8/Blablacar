@@ -23,6 +23,7 @@ export class AltaUsuarioComponent implements OnInit {
   usuario: Usuario = new Usuario();
   tiposUsuarios: Rol[] = [Rol.CONDUCTOR, Rol.PASAJERO];
   datosConductor: boolean = false;
+  required: boolean = false;
   calendarioPasajero: boolean = false;
   calendarioConductor: boolean = true;
   minDateConductor!: Date;
@@ -55,16 +56,27 @@ export class AltaUsuarioComponent implements OnInit {
   guardarRespuestaTipoUsuario(){
     this.usuario.rol = this.formGroup.get('usuarioRol')?.value;
     if(this.usuario.rol == 'Conductor'){
+      this.formGroup.controls['usuarioMatricula'].setValidators([Validators.required]);
+      this.formGroup.controls['usuarioMarca'].setValidators([Validators.required]);
+      this.formGroup.controls['usuarioModelo'].setValidators([Validators.required]);
       this.datosConductor = true;
+      this.required = true;
       this.calendarioConductor = true;
       this.calendarioPasajero = false;
-    }else{
+    }
+    else{
+      this.formGroup.get('usuarioMatricula')?.clearValidators();
+      this.formGroup.get('usuarioMatricula')?.updateValueAndValidity();
+      this.formGroup.get('usuarioMarca')?.clearValidators();
+      this.formGroup.get('usuarioMarca')?.updateValueAndValidity();
+      this.formGroup.get('usuarioModelo')?.clearValidators();
+      this.formGroup.get('usuarioModelo')?.updateValueAndValidity();
+      this.datosConductor = false;
       this.calendarioConductor = false;
       this.calendarioPasajero = true;
       this.usuario.marca = '';
       this.usuario.matricula = '';
       this.usuario.modelo = '';
-      this.datosConductor = false;
     }
   }
   

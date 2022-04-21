@@ -25,7 +25,6 @@ export class PasajerosComponent implements OnInit {
   dataSource: Viaje[] = [];
   mostrarBotonReservar: boolean = false;
   mostrarBotonReservas: boolean = false;
-  saldoConductor: number = 0;
 
   constructor(private comunicacionService: ComunicacionService,
     public dialog: MatDialog) {
@@ -44,6 +43,10 @@ export class PasajerosComponent implements OnInit {
       if(this.usuario.viajes.length > 0){
         this.mostrarBotonReservas = true;
       }
+    })
+
+    this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuarios.subscribe(usuarios => {
+      this.usuarios = usuarios;
     })
 
     this.suscripcionViaje = this.comunicacionService.observableSelectedViajes.subscribe(viajes => {
@@ -90,6 +93,7 @@ export class PasajerosComponent implements OnInit {
       alert('Viaje completo, no se pueden reservar más plazas');
     }else{
       this.viajeSeleccionado.plazas = this.viajeSeleccionado.plazas - 1;
+      this.usuario.saldo = this.usuario.saldo - this.viajeSeleccionado.precioPlaza;
       for (let i = 0; i < this.usuario.viajes.length; i++) {
         if(this.usuario.viajes[i].origen == this.viajeSeleccionado.origen && 
           this.usuario.viajes[i].destino == this.viajeSeleccionado.destino &&
@@ -102,9 +106,10 @@ export class PasajerosComponent implements OnInit {
       if(isIncluded == false){
         this.usuario.viajes.push(viajeSeleccionado);
       }
-      if(this.usuario.rol == 'Pasajero'){
-        this.usuario.saldo = this.usuario.saldo - this.viajeSeleccionado.precioPlaza;
-        this.saldoConductor = +this.saldoConductor + +this.viajeSeleccionado.precioPlaza;
+      for (let i = 0; i < this.usuarios.length; i++) {
+        if(this.usuarios[i].nombre == viajeSeleccionado.conductor){
+          this.usuarios[i].saldo = +this.usuarios[i].saldo + +viajeSeleccionado.precioPlaza;
+        }
       }
       if(this.usuario.saldo < 0){
         alert('El usuario no tiene suficiente saldo');

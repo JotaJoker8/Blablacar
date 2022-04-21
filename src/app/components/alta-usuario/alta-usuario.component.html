@@ -44,17 +44,17 @@
         <div *ngIf="datosConductor">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Matrícula: </mat-label>
-                <input matInput required formControlName="usuarioMatricula" maxlength="7">
+                <input matInput formControlName="usuarioMatricula" maxlength="7">
                 <mat-error *ngIf="this.formGroup.get('usuarioMatricula')?.invalid">{{getErrorMatricula()}}</mat-error>
             </mat-form-field><br><br>
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Marca: </mat-label>
-                <input matInput required formControlName="usuarioMarca" maxlength="10">
+                <input matInput formControlName="usuarioMarca" maxlength="10">
                 <mat-error *ngIf="this.formGroup.get('usuarioMarca')?.invalid">{{getErrorMarca()}}</mat-error>
             </mat-form-field><br><br>
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Modelo: </mat-label>
-                <input matInput required formControlName="usuarioModelo" maxlength="10">
+                <input matInput formControlName="usuarioModelo" maxlength="10">
                 <mat-error *ngIf="this.formGroup.get('usuarioModelo')?.invalid">{{getErrorModelo()}}</mat-error>
             </mat-form-field>
         </div><br>

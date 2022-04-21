@@ -20,7 +20,7 @@ var HeaderComponent = /** @class */ (function () {
         this.suscripcionUsuario = this.comunicacionService.observableSelectedUsuario.subscribe(function (usuario) {
             _this.usuario = usuario;
             if (_this.usuario.viajes.length == 0 && _this.usuario.rol == 'Conductor') {
-                _this.usuario.saldo = 0;
+                _this.usuario.saldoConductor = 0;
             }
             if (_this.usuario.viajes.length == 0 && _this.usuario.rol == 'Pasajero') {
                 _this.usuario.saldo = 50;
